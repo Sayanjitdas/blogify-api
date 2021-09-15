@@ -1,4 +1,4 @@
 db.sqlite3
 *.sqlite3
-make_migrations/
+migrations/
 __pycache__/
