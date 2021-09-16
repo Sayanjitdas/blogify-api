@@ -9,7 +9,7 @@ class AuthorSerializer(serializers.ModelSerializer):
 
     class Meta:
         model=get_user_model()
-        fields = ('email','first_name','last_name')
+        fields = ('email','first_name','last_name','profile_pic')
 
 
 class ArticleSerializer(serializers.ModelSerializer):

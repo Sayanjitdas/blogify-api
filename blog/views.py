@@ -9,7 +9,7 @@ from .serializers import ArticleSerializer,ArticleDetailSerializer
 class ArticleListView(ListAPIView):
 
     permission_classes = (permissions.AllowAny,)
-    queryset = Article.objects.all().order_by('created_date')
+    queryset = Article.objects.all().order_by('-created_date')
     serializer_class = ArticleSerializer
     
 
