@@ -3,7 +3,6 @@ from rest_framework import serializers
 from .models import Article
 from django.contrib.auth import get_user_model
 
-USER = get_user_model()
 
 class AuthorSerializer(serializers.ModelSerializer):
 

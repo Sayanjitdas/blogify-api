@@ -1,3 +1,5 @@
+from django.db.models import fields
+from django.http import request
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from rest_framework.authtoken.models import Token
@@ -41,3 +43,15 @@ class UserRegistrationSerializer(serializers.Serializer):
         _ = Token.objects.create(user=user_object) #creating token for the newly created user
 
         return validated_data
+
+
+
+class UserDetailsSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = get_user_model()
+        fields = ('first_name','last_name','bio','profile_pic')
+    
+    def get_image_url(self,obj):
+        request = self.context.get('request')
+        return request.build_absolute_uri(obj.profile_pic.url)

@@ -16,8 +16,6 @@ class ArticleListView(ListAPIView):
 
 class ArticleDetailView(RetrieveAPIView):
 
-
-    permission_classes = (permissions.AllowAny,)
     queryset = Article.objects.all()
     lookup_field = 'slug_field'
     serializer_class = ArticleDetailSerializer
