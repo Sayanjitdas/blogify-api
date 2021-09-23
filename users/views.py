@@ -28,15 +28,29 @@ class UserDetailsAPIView(APIView):
 
     permission_classes = (permissions.IsAuthenticated,)
 
-    def get_object(self,token):
+    def get_object(self,request):
+        token = request.headers.get('Authorization').split(' ')[1]
         return Token.objects.get(key=token).user
         
     def get(self,request,*args,**kwargs):
         try:
-            token = request.headers.get('Authorization').split(' ')[1]
-            user_obj = self.get_object(token)
+            user_obj = self.get_object(request)
             serializer = UserDetailsSerializer(user_obj,context={"request":request})
             return Response(serializer.data,status=status.HTTP_200_OK)
         except Exception as e:
             print(e)
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    def put(self,request,*args,**kwargs):
+        try:
+            user_obj = self.get_object(request)
+            print(request)
+            print(request.data.get('profile_pic'))
+            serializer = UserDetailsSerializer(instance=user_obj,data=request.data,context={"request":request})
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data,status=status.HTTP_201_CREATED)
+        except Exception as e:
+            print(e)
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            
