@@ -17,6 +17,13 @@ class ArticleDetailView(RetrieveAPIView):
     lookup_field = 'slug_field'
     serializer_class = ArticleDetailSerializer
 
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        token = self.request.headers.get('Authorization','').split(' ')[1]
+        user_obj = Token.objects.get(key=token).user
+        context['user'] = user_obj
+        return context
+
 class ArticleCreateView(CreateAPIView):
 
     queryset = Article.objects.all()

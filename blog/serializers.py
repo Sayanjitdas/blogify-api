@@ -36,10 +36,12 @@ class ArticleDetailSerializer(serializers.ModelSerializer):
         fields = ('title','slug_field','author','created_date','created_time','description','likes','dislikes')
 
     def get_likes(self,instance):
-        return Like.objects.filter(liked_article=instance).count()
+        user = self.context.get('user')
+        return Like.objects.filter(liked_article=instance,liked_by=user).count()
 
     def get_dislikes(self,instance):
-        return DisLike.objects.filter(disliked_article=instance).count()
+        user = self.context.get('user')
+        return DisLike.objects.filter(disliked_article=instance,disliked_by=user).count()
 
 
 class ArticleCreateSerilaizer(serializers.ModelSerializer):
