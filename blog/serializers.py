@@ -33,7 +33,7 @@ class ArticleDetailSerializer(serializers.ModelSerializer):
     created_time = serializers.TimeField(format="%I:%M %p")
     class Meta:
         model = Article
-        fields = ('title','slug_field','author','created_date','created_time','description','likes','dislikes')
+        fields = ('id','title','slug_field','author','created_date','created_time','description','likes','dislikes')
 
     def get_likes(self,instance):
         user = self.context.get('user')
