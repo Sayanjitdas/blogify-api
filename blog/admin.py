@@ -28,7 +28,7 @@ class DisLikeAdmin(admin.StackedInline):
         return False
 
     def has_delete_permission(self,request,obj):
-        return False
+        return True
     
 
 

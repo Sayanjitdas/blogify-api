@@ -17,6 +17,8 @@ def LikeView(request):
         user_obj = user_model.objects.get(email=data.get('user'))
         article_obj = Article.objects.get(
             pk=int(data.get('article_id')))
+        if DisLike.objects.filter(disliked_article=article_obj,disliked_by=user_obj).exists():
+            DisLike.objects.filter(disliked_article=article_obj,disliked_by=user_obj).delete()
         Like.objects.create(
             liked_article=article_obj,
             liked_by=user_obj
@@ -29,7 +31,22 @@ def LikeView(request):
 
 @api_view(['POST'])
 def DisLikeView(request):
-    pass
+    try:
+        user_model = get_user_model()
+        data = json.loads(request.body)
+        user_obj = user_model.objects.get(email=data.get('user'))
+        article_obj = Article.objects.get(
+            pk=int(data.get('article_id')))
+        if Like.objects.filter(liked_article=article_obj,liked_by=user_obj).exists():
+            Like.objects.filter(liked_article=article_obj,liked_by=user_obj).delete()
+        DisLike.objects.create(
+            disliked_article=article_obj,
+            disliked_by=user_obj
+        )
+    except Exception as e:
+        print(e)
+        return Response(status=400)
+    return Response(status=201)
 
 
 class ArticleListView(ListAPIView):
