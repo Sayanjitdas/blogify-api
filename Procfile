@@ -1,1 +1,1 @@
-web: gunicorn blogifyproject.wsgi --logfile -
+web: gunicorn blogifyproject.wsgi --log-file -
